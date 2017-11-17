@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-
 /*
 <xml>
 	<jeremy age="36">
@@ -17,7 +16,7 @@ XMLHashtable xml;
 xml["jeremy"][0]["friend"][0].text
 xml["jeremy"][0].att("age");
 */
-		
+
 
 
 [System.Serializable]

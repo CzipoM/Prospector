@@ -34,6 +34,8 @@ public class Deck : MonoBehaviour {
 	public Dictionary<string, Sprite>	dictSuits;
 
 
+    
+
 	// called by Prospector when it is ready
 	public void InitDeck(string deckXMLText) {
 		// from page 576
@@ -235,7 +237,18 @@ public class Deck : MonoBehaviour {
 				tGO.transform.localPosition = Vector3.zero;  // slap it smack dab in the middle
 				tGO.name = "face";
 			}
-			
+
+            tGO = Instantiate(prefabSprite) as GameObject;
+            tSR = tGO.GetComponent<SpriteRenderer>();
+            tSR.sprite = cardBack;
+            tGO.transform.parent = card.transform;
+            tGO.transform.localPosition = Vector3.zero;
+            tSR.sortingOrder = 2;
+            tGO.name = "back";
+            card.back = tGO;
+
+            card.faceup = false;
+
 			cards.Add (card);
 		} // for all the Cardnames	
 	} // makeCards
@@ -249,5 +262,19 @@ public class Deck : MonoBehaviour {
 		}//foreach	
 		return (null);  // couldn't find the sprite (should never reach this line)
 	 }// getFace 
-	
+
+    static public void Shuffle(ref List<Card> oCards)
+    {
+        List<Card> tCards = new List<Card>();
+        int ndx;
+        tCards = new List<Card>();
+        while(oCards.Count > 0)
+        {
+            ndx = Random.Range(0, oCards.Count);
+            tCards.Add(oCards[ndx]);
+            oCards.RemoveAt(ndx);
+        }
+        oCards = tCards;
+
+    }
 } // Deck class
