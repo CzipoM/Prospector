@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum FSState
 {
@@ -27,7 +28,7 @@ public class FloatingScore : MonoBehaviour {
         {
             _score = value;
             scoreString = Utils.AddCommasToNumber(_score);
-            GetComponent<GUIText>().text = scoreString;
+            GetComponent<Text>().text = scoreString;
         }
     }
 
@@ -97,7 +98,7 @@ public class FloatingScore : MonoBehaviour {
             if(fontSizes != null && fontSizes.Count > 0)
             {
                 int size = Mathf.RoundToInt(Utils.Bezier(uC, fontSizes));
-                GetComponent<GUIText>().fontSize = size;
+                GetComponent<Text>().fontSize = size;
             }
         }
 	}

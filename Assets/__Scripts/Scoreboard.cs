@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Scoreboard : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class Scoreboard : MonoBehaviour {
     [SerializeField]
     private int _score = 0;
     public string _scoreString;
+
 
     public int score
     {
@@ -35,7 +37,7 @@ public class Scoreboard : MonoBehaviour {
         set
         {
             _scoreString = value;
-            GetComponent<GUIText>().text = _scoreString;
+            GetComponent<Text>().text = _scoreString;
         }
     }
 
