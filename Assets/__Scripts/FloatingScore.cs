@@ -98,7 +98,7 @@ public class FloatingScore : MonoBehaviour {
             if(fontSizes != null && fontSizes.Count > 0)
             {
                 int size = Mathf.RoundToInt(Utils.Bezier(uC, fontSizes));
-                GetComponent<Text>().fontSize = size;
+                //GetComponent<Text>().fontSize = size;
             }
         }
 	}
