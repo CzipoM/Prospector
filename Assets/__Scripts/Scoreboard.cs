@@ -24,7 +24,7 @@ public class Scoreboard : MonoBehaviour {
         set
         {
             _score = value;
-            scoreString = Utils.AddCommasToNumber(_score); // might be _scoreString instead
+            scoreString = Utils.AddCommasToNumber(_score);
         }
     }
 
@@ -37,7 +37,7 @@ public class Scoreboard : MonoBehaviour {
         set
         {
             _scoreString = value;
-            GetComponent<Text>().text = _scoreString;
+            //GetComponent<Text>().text = _scoreString;
         }
     }
 
