@@ -22,7 +22,7 @@ public class FloatingScore : MonoBehaviour {
     {
         get
         {
-            return score;
+            return _score;
         }
         set
         {
@@ -39,6 +39,15 @@ public class FloatingScore : MonoBehaviour {
     public string easingCurve = Easing.InOut;
 
     public GameObject reportFinishTo = null;
+
+    public void setPos(Vector3 pos)
+    {
+        Vector2 pos2D = new Vector2(pos.x, pos.y);
+        RectTransform rt = GetComponent<RectTransform>();
+        rt.anchorMin = pos2D;
+        rt.anchorMax = pos2D;
+        rt.anchoredPosition3D = Vector3.zero;
+    }
 
     public void Init(List<Vector3> ePts, float eTimeS = 0, float eTimeD = 1)
     {
@@ -94,11 +103,12 @@ public class FloatingScore : MonoBehaviour {
             }
 
             Vector3 pos = Utils.Bezier(uC, bezierPts);
-            transform.position = pos;
+            //transform.position = pos;
+            setPos(pos);
             if(fontSizes != null && fontSizes.Count > 0)
             {
                 int size = Mathf.RoundToInt(Utils.Bezier(uC, fontSizes));
-                //GetComponent<Text>().fontSize = size;
+                GetComponent<Text>().fontSize = size;
             }
         }
 	}

@@ -19,7 +19,7 @@ public class Scoreboard : MonoBehaviour {
     {
         get
         {
-            return score;
+            return _score;
         }
         set
         {
@@ -37,7 +37,7 @@ public class Scoreboard : MonoBehaviour {
         set
         {
             _scoreString = value;
-            //GetComponent<Text>().text = _scoreString;
+            GetComponent<Text>().text = _scoreString;
         }
     }
 
@@ -54,6 +54,7 @@ public class Scoreboard : MonoBehaviour {
     public FloatingScore CreateFloatingScore(int amt, List<Vector3> pts)
     {
         GameObject go = Instantiate(prefabFloatingScore) as GameObject;
+        go.transform.SetParent(transform.parent);
         FloatingScore fs = go.GetComponent<FloatingScore>();
         fs.score = amt;
         fs.reportFinishTo = this.gameObject;
