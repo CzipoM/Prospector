@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 
 public enum ScoreEvent
@@ -17,6 +18,8 @@ public class Prospector : MonoBehaviour {
 	static public Prospector 	S;
     static public int SCORE_FROM_PREV_ROUND = 0;
     static public int HIGH_SCORE = 0;
+
+    public float reloadDelay = 1f;
 
     public Vector3 fsPosMid = new Vector3(0.5f, 0.90f, 0);
     public Vector3 fsPosRun = new Vector3(0.5f, 0.75f, 0);
@@ -45,6 +48,9 @@ public class Prospector : MonoBehaviour {
     public int score = 0;
     public FloatingScore fsRun;
 
+    public Text GTGameOver;
+    public Text GTRoundResult;
+
 	void Awake(){
 		S = this;
         if (PlayerPrefs.HasKey("ProspectorHighScore"))
@@ -54,7 +60,30 @@ public class Prospector : MonoBehaviour {
 
         score += SCORE_FROM_PREV_ROUND;
         SCORE_FROM_PREV_ROUND = 0;
+
+        GameObject go = GameObject.Find("GameOver");
+        if(go != null)
+        {
+            GTGameOver = go.GetComponent<Text>();
+        }
+        go = GameObject.Find("RoundResult");
+        if(go != null)
+        {
+            GTRoundResult = go.GetComponent<Text>();
+        }
+
+        ShowResultGTs(false);
+
+        go = GameObject.Find("HighScore");
+        string hScore = "High Score: " + Utils.AddCommasToNumber(HIGH_SCORE);
+        go.GetComponent<Text>().text = hScore;
 	}
+
+    void ShowResultGTs(bool show)
+    {
+        GTGameOver.gameObject.SetActive(show);
+        GTRoundResult.gameObject.SetActive(show);
+    }
 
     
 
@@ -304,8 +333,13 @@ public class Prospector : MonoBehaviour {
             ScoreManager(ScoreEvent.gameLoss);
         }
 
-        Application.LoadLevel("__Prospector_Scene_0");
+        Invoke("ReloadLevel", reloadDelay);
 
+    }
+
+    void ReloadLevel()
+    {
+        Application.LoadLevel("__Prospector_Scene_0");
     }
 
     void ScoreManager(ScoreEvent sEvt)
@@ -359,20 +393,28 @@ public class Prospector : MonoBehaviour {
         switch (sEvt)
         {
             case ScoreEvent.gameWin:
+                GTGameOver.text = "Round Over";
                 Prospector.SCORE_FROM_PREV_ROUND = score;
                 print("You won this round! Round Score: " + score);
+                GTRoundResult.text = "You won this Round! \nRound Score: " + score;
+                ShowResultGTs(true);
                 break;
             case ScoreEvent.gameLoss:
+                GTGameOver.text = "Game Over";
                 if(Prospector.HIGH_SCORE <= score)
                 {
                     print("You got the High Score! High Score: " + score);
+                    string sRR = "You got the high score!\nHigh Score: " + score;
+                    GTRoundResult.text = sRR;
                     Prospector.HIGH_SCORE = score;
                     PlayerPrefs.SetInt("ProspectorHighScore", score);
                 }
                 else
                 {
                     print("Your final score for the game was: " + score);
+                    GTRoundResult.text = "Your final score was: " + score;
                 }
+                ShowResultGTs(true);
                 break;
             default:
                 print("score: " + score + " scoreRun:" + scoreRun + " chain:" + chain);
