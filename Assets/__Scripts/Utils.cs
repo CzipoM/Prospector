@@ -94,11 +94,6 @@ public class Utils : MonoBehaviour {
 		_camBounds.Encapsulate( boundBRF );
 	}
 
-    internal static Quaternion Bezier(float uC, List<Quaternion> bezierRots)
-    {
-        throw new NotImplementedException();
-    }
-
 
 
     // Test to see whether Bounds are on screen.
