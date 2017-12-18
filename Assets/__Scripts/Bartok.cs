@@ -10,6 +10,7 @@ public class Bartok : MonoBehaviour {
     public TextAsset layoutXml;
     public Vector3 layoutCenter = Vector3.zero;
 
+    public float handFanDegrees = 10f;
     public bool ________________________;
 
     public Deck deck;
@@ -18,6 +19,9 @@ public class Bartok : MonoBehaviour {
 
     public BartokLayout layout;
     public Transform layoutAnchor;
+
+    public List<Player> players;
+    public CardBartok targetCard;
 
     void Awake()
     {
@@ -34,6 +38,7 @@ public class Bartok : MonoBehaviour {
         layout.ReadLayout(layoutXml.text);
 
         drawPile = UpgradeCardsList(deck.cards);
+        LayoutGame();
 
     }
 
@@ -45,5 +50,71 @@ public class Bartok : MonoBehaviour {
             lCB.Add(tCD as CardBartok);
         }
         return (lCB);
+    }
+
+    public void ArrangeDrawPile()
+    {
+        CardBartok tCB;
+
+        for(int i =0; i<drawPile.Count; i++)
+        {
+            tCB = drawPile[i];
+            tCB.transform.parent = layoutAnchor;
+            tCB.transform.localPosition = layout.drawPile.pos;
+            tCB.faceUp = false;
+            tCB.SetSortingLayerName(layout.drawPile.layerName);
+            tCB.SetSortOrder(-1 * 4);
+            tCB.state = CBState.drawpile;
+        }
+    }
+
+    void LayoutGame()
+    {
+        if(layoutAnchor == null)
+        {
+            GameObject tGO = new GameObject("_LayoutAnchor");
+            layoutAnchor = tGO.transform;
+            layoutAnchor.transform.position = layoutCenter;
+        }
+
+        ArrangeDrawPile();
+
+        Player pl;
+        players = new List<Player>();
+        foreach(SlotDef tSD in layout.slotDefs)
+        {
+            pl = new Player();
+            pl.handSlotDef = tSD;
+            players.Add(pl);
+            pl.playerNum = players.Count;
+        }
+        players[0].type = PlayerType.human;
+    }
+
+    public CardBartok Draw()
+    {
+        CardBartok cd = drawPile[0];
+        drawPile.RemoveAt(0);
+        return (cd);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            players[0].AddCard(Draw());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            players[1].AddCard(Draw());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            players[2].AddCard(Draw());
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            players[3].AddCard(Draw());
+        }
     }
 }

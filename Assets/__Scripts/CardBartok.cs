@@ -18,7 +18,7 @@ public class CardBartok : Card {
 
     static public float MOVE_DURATION = 0.5f;
     static public string MOVE_EASING = Easing.InOut;
-    static public float CARD_Height = 3.5f;
+    static public float CARD_HEIGHT = 3.5f;
     static public float CARD_WIDTH = 2f;
 
     public CBState state = CBState.drawpile;
