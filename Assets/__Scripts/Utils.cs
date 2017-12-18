@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 // This is actually OUTSIDE of the Utils Class
 public enum BoundsTest {
@@ -92,11 +93,16 @@ public class Utils : MonoBehaviour {
 		_camBounds.Encapsulate( boundTLN );
 		_camBounds.Encapsulate( boundBRF );
 	}
-	
-	
-	
-	// Test to see whether Bounds are on screen.
-	public static Vector3 ScreenBoundsCheck(Bounds bnd, BoundsTest test = BoundsTest.center) {
+
+    internal static Quaternion Bezier(float uC, List<Quaternion> bezierRots)
+    {
+        throw new NotImplementedException();
+    }
+
+
+
+    // Test to see whether Bounds are on screen.
+    public static Vector3 ScreenBoundsCheck(Bounds bnd, BoundsTest test = BoundsTest.center) {
 		// Call the more generic BoundsInBoundsCheck with camBounds as bigB
 		return( BoundsInBoundsCheck( camBounds, bnd, test ) );
 	}
